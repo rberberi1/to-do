@@ -8,7 +8,7 @@ const API_URL = 'http://localhost:8080/todos';
 function App() {
   const [tasks, setTasks] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [currentTaskIndex, setCurrentTaskIndex] = useState(null);
+  const [currentTaskId, setCurrentTaskId] = useState(null);
 
   
   useEffect(() => {
@@ -22,41 +22,50 @@ function App() {
     };
 
     fetchTasks();
-  }, []);
+  }, [tasks]);
+
 
   const handleAddTask = async (task) => {
     try {
-      const response = await axios.post(API_URL, task);
+      const response = await axios.post(API_URL, {
+        title:task.title,
+        description:task.description
+      });
+
       setTasks([...tasks, response.data]);
+
     } catch (error) {
       console.error('Error adding task:', error);
     }
   };
 
-  const handleEditTask = (index) => {
+  ///////LOOKKKK THESE !!!!/////////////////////////7
+
+  const handleEditTask = (id) => {
     setIsEditing(true);
-    setCurrentTaskIndex(index);
+    setCurrentTaskId(id);
+    console.log(`button with id ${id} clicked`)
   };
 
-  const handleDeleteTask = async (index) => {
-    const taskId = tasks[index].id;
+  const handleDeleteTask = async (id) => {
+    
     try {
-      await axios.delete(`${API_URL}/${taskId}`);
-      setTasks(tasks.filter((_, i) => i !== index));
+      await axios.delete(`${API_URL}/${id}`);
+     
     } catch (error) {
       console.error('Error deleting task:', error);
     }
   };
 
-  const handleUpdateTask = async (updatedTask) => {
-    const taskId = tasks[currentTaskIndex].id; 
+  const handleUpdateTask = async (id) => { 
+    const updatedTask = tasks.find((task) => task.id === id);
     try {
-      const response = await axios.patch(`${API_URL}/${taskId}`, updatedTask);
-      const updatedTasks = [...tasks];
-      updatedTasks[currentTaskIndex] = response.data;
-      setTasks(updatedTasks);
+      await axios.patch(`${API_URL}/${id}`,{
+        title: updatedTask.title,
+        description: updatedTask.description,
+      });
       setIsEditing(false);
-      setCurrentTaskIndex(null);
+      setCurrentTaskId(null);
     } catch (error) {
       console.error('Error updating task:', error);
     }
@@ -64,14 +73,16 @@ function App() {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setCurrentTaskIndex(null);
+    setCurrentTaskId(null);
+    
   };
 
   return (
     <div className="app">
       <h1>To-Do List</h1>
       <ToDoForm
-        currentTask={isEditing ? tasks[currentTaskIndex] : null}
+      tasks={tasks}
+        currentTaskId={currentTaskId}
         onSubmit={isEditing ? handleUpdateTask : handleAddTask}
         onCancel={handleCancelEdit}
       />

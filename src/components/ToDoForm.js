@@ -1,28 +1,31 @@
 import React, { useState, useEffect } from 'react';
 
-const ToDoForm = ({ currentTask, onSubmit, onCancel }) => {
-  const [task, setTask] = useState({ title: '', description: '', completed: false });
+const ToDoForm = ({tasks, currentTaskId, onSubmit, onCancel }) => {
+  const [task, setTask] = useState({ title: '', description: '' });
 
   useEffect(() => {
-    if (currentTask) {
-      setTask(currentTask);
-    } else {
-      setTask({ title: '', description: '', completed: false });
+    if (currentTaskId) {
+   
+      const currentTask = tasks.find((t) => t.id === currentTaskId);
+      if (currentTask) {
+        setTask({ title: currentTask.title, description: currentTask.description });
+      }else{
+        setTask({title:'', description:''})
+      }
     }
-  }, [currentTask]);
+  }, [currentTaskId, tasks]);
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setTask({
-      ...task,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+    const { name, value } = e.target;
+    setTask({...task,[name] : value});
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!task.title || !task.description) return; 
+    if (!task.title || !task.description) 
+      return; 
     onSubmit(task);
+    setTask({title:'', description:''});
   };
 
   return (
@@ -41,8 +44,8 @@ const ToDoForm = ({ currentTask, onSubmit, onCancel }) => {
         onChange={handleInputChange}
         placeholder="Task Description"
       />
-      <button type="submit">{currentTask ? 'Update Task' : 'Add Task'}</button>
-     { currentTask? <button type="button" onClick={onCancel}>Cancel</button>: null}
+      <button type="submit">{currentTaskId ? 'Update Task' : 'Add Task'}</button>
+     { currentTaskId? <button type="button" onClick={onCancel}>Cancel</button>: null}
     </form>
   );
 };
