@@ -1,6 +1,6 @@
 import ToDo from './ToDo';
 
-function ToDoList ({ tasks, onDelete, onEdit }) {
+function ToDoList({ tasks, onDelete, onEdit }) {
   return (
     <ul className="todo-list">
       {tasks.map((task, index) => (
@@ -13,6 +13,6 @@ function ToDoList ({ tasks, onDelete, onEdit }) {
       ))}
     </ul>
   );
-};
+}
 
 export default ToDoList;
