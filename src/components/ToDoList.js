@@ -1,7 +1,7 @@
 import React from 'react';
 import ToDo from './ToDo';
 
-function ToDoList({ tasks, onDelete, onEdit }) {
+function ToDoList({ tasks, onDelete, onEdit, onCheckboxChange }) {
   return (
     <ul className="todo-list">
       {tasks.map((task) => (
@@ -10,6 +10,7 @@ function ToDoList({ tasks, onDelete, onEdit }) {
           task={task}
           onDelete={() => onDelete(task.id)}
           onEdit={() => onEdit(task.id)}
+          onCheckboxChange={onCheckboxChange}
         />
       ))}
     </ul>

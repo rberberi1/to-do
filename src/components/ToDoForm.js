@@ -8,9 +8,10 @@ const ToDoForm = ({tasks, currentTaskId, onSubmit, onCancel }) => {
    
       const currentTask = tasks.find((t) => t.id === currentTaskId);
       if (currentTask) {
+        console.log('Editing task:', currentTask);
         setTask({ title: currentTask.title, description: currentTask.description });
       }else{
-        setTask({title:'', description:''})
+        setTask({title:'', description:''});
       }
     }
   }, [currentTaskId, tasks]);

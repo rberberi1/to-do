@@ -1,9 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 
-function ToDo({ task, onDelete, onEdit }) {
+function ToDo({ task, onDelete, onEdit, onCheckboxChange }) {
 
-  const handelCheckboxChange = async(e) =>{
+  const handleCheckboxChange = async(e) =>{
     const isChecked=e.target.checked;
 
     try{
@@ -11,7 +11,8 @@ function ToDo({ task, onDelete, onEdit }) {
         completed:isChecked,
     });
     console.log(`Task ${task.id} updated with comleted status ${isChecked}`)
-    }catch(error){
+    onCheckboxChange(task.id, isChecked)
+  }catch(error){
     console.error('error updating task:', error)
   }
 };
@@ -25,7 +26,7 @@ function ToDo({ task, onDelete, onEdit }) {
         <input type="checkbox" 
         name="checkbox" 
         checked={task.completed}
-        onChange={handelCheckboxChange}/>
+        onChange={handleCheckboxChange}/>
       </div>
       <div>
         <button onClick={onEdit}>Edit</button>

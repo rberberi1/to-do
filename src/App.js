@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import ToDoList from './components/ToDoList';
 import ToDoForm from './components/ToDoForm';
@@ -22,7 +22,7 @@ function App() {
     };
 
     fetchTasks();
-  }, [tasks]);
+  }, []);
 
 
   const handleAddTask = async (task) => {
@@ -32,7 +32,7 @@ function App() {
         description:task.description
       });
 
-      setTasks([...tasks, response.data]);
+      setTasks((prevTasks) => [...prevTasks, response.data]);
 
     } catch (error) {
       console.error('Error adding task:', error);
@@ -51,19 +51,23 @@ function App() {
     
     try {
       await axios.delete(`${API_URL}/${id}`);
+      setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
      
     } catch (error) {
       console.error('Error deleting task:', error);
     }
   };
 
-  const handleUpdateTask = async (id) => { 
-    const updatedTask = tasks.find((task) => task.id === id);
+  const handleUpdateTask = async (task) => { 
     try {
-      await axios.patch(`${API_URL}/${id}`,{
-        title: updatedTask.title,
-        description: updatedTask.description,
+      await axios.patch(`${API_URL}/${currentTaskId}`, {
+        title: task.title,
+        description: task.description,
       });
+      
+      setTasks((prevTasks) => prevTasks.map((t) =>
+        t.id === currentTaskId ? { ...t, title: task.title, description: task.description } : t
+      ));
       setIsEditing(false);
       setCurrentTaskId(null);
     } catch (error) {
@@ -77,11 +81,30 @@ function App() {
     
   };
 
+  const handleCheckboxChange = (id, isChecked) => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) =>
+        task.id === id ? { ...task, completed: isChecked } : task
+      )
+    );
+  };
+
+  const completedTasksCount = useMemo(() => {
+    return tasks.filter((task) => task.completed).length;
+  }, [tasks]);
+
+  const incompleteTasksCount = useMemo(() => {
+    return tasks.filter((task) => !task.completed).length;
+  }, [tasks]);
+
+
   return (
     <div className="app">
       <h1>To-Do List</h1>
+      <p>Completed Tasks: {completedTasksCount}</p>
+      <p>Incomplete Tasks: {incompleteTasksCount}</p>
       <ToDoForm
-      tasks={tasks}
+        tasks={tasks}
         currentTaskId={currentTaskId}
         onSubmit={isEditing ? handleUpdateTask : handleAddTask}
         onCancel={handleCancelEdit}
@@ -91,6 +114,7 @@ function App() {
         tasks={tasks}
         onDelete={handleDeleteTask}
         onEdit={handleEditTask}
+        onCheckboxChange={handleCheckboxChange}
       />
     </div>
   );
