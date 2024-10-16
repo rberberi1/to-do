@@ -33,8 +33,10 @@ h1 {
   margin-bottom: 20px;
 }
 
-.todo-form input {
+.todo-form input ,textarea {
   width: 100%;
+  min-width: 100%;
+  max-width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -106,6 +108,7 @@ h1 {
 .todo-item div {
   display: flex;
   align-items: center;
+  gap: 1rem;
   font-size: 1rem;
 }
 

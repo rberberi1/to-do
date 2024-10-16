@@ -1,26 +1,28 @@
 import React, { useState, useEffect } from 'react';
 
-function ToDoForm  ({ currentTask, onSubmit })  {
-  const [task, setTask] = useState({ title: '', time: '', date: '' });
+const ToDoForm = ({ currentTask, onSubmit, onCancel }) => {
+  const [task, setTask] = useState({ title: '', description: '', completed: false });
 
   useEffect(() => {
     if (currentTask) {
       setTask(currentTask);
+    } else {
+      setTask({ title: '', description: '', completed: false });
     }
   }, [currentTask]);
 
   const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
     setTask({
       ...task,
-      [e.target.name]: e.target.value,
+      [name]: type === 'checkbox' ? checked : value,
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!task.title || !task.time || !task.date) return;
+    if (!task.title || !task.description) return; 
     onSubmit(task);
-    setTask({ title: '', time: '', date: '' }); 
   };
 
   return (
@@ -32,22 +34,15 @@ function ToDoForm  ({ currentTask, onSubmit })  {
         onChange={handleInputChange}
         placeholder="Task Title"
       />
-      <input
-        type="time"
-        name="time"
-        value={task.time}
+      <textarea
+        name="description"
+        row={4}
+        value={task.description}
         onChange={handleInputChange}
-        placeholder="Task Time"
-      />
-      <input
-        type="date"
-        name="date"
-        value={task.date}
-        onChange={handleInputChange}
-        placeholder="Task Date"
+        placeholder="Task Description"
       />
       <button type="submit">{currentTask ? 'Update Task' : 'Add Task'}</button>
-      
+     { currentTask? <button type="button" onClick={onCancel}>Cancel</button>: null}
     </form>
   );
 };
