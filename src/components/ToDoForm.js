@@ -18,14 +18,18 @@ const ToDoForm = ({tasks, currentTaskId, onSubmit, onCancel }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setTask({...task,[name] : value});
+    setTask({...task, [name] : value});
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!task.title || !task.description) 
       return; 
-    onSubmit(task);
+    const updatedTask = {
+      ...task,
+      id: currentTaskId, 
+    };
+    onSubmit(updatedTask);
     setTask({title:'', description:''});
   };
 
