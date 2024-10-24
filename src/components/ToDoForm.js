@@ -16,11 +16,7 @@ const ToDoForm = ({tasks, currentTaskId, onSubmit, onCancel }) => {
     }
   }, [currentTaskId, tasks]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setTask({...task, [name] : value});
-  };
-
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!task.title || !task.description) 
@@ -39,14 +35,14 @@ const ToDoForm = ({tasks, currentTaskId, onSubmit, onCancel }) => {
         type="text"
         name="title"
         value={task.title}
-        onChange={handleInputChange}
+        onChange={(e)=>setTask({...task, 'title':e.target.value})}
         placeholder="Task Title"
       />
       <textarea
         name="description"
         row={4}
         value={task.description}
-        onChange={handleInputChange}
+        onChange={(e)=>setTask({...task, 'description':e.target.value})}
         placeholder="Task Description"
       />
       <button type="submit">{currentTaskId ? 'Update Task' : 'Add Task'}</button>
