@@ -1,7 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const ToDo = (({ task, onDelete, onEdit, onCheckboxChange }) => {
-  console.log('im rerendering')
   
   const handleCheckboxChange = () => {
     onCheckboxChange(task.id, task.completed);
@@ -10,7 +10,9 @@ const ToDo = (({ task, onDelete, onEdit, onCheckboxChange }) => {
   return (
     <li className="todo-item">
       <div>
-        <h3>{task.title}</h3> <br/>
+        <h3><Link to={`/task/${task.id}`}>
+            {task.title}
+          </Link></h3> <br/>
         <h5>{task.description}</h5>
         <input 
           type="checkbox" 
