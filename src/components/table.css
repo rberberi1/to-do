@@ -1,0 +1,94 @@
+.container {
+  margin:auto;
+  max-width: 90vw;
+  overflow-x: auto;
+}
+
+.title {
+  color: #2e8b57; /* Dark green */
+  font-size: 32px; /* Larger title font */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.language-select {
+  display: block;
+  margin: 0 auto 20px auto;
+  padding: 12px; /* Increase padding */
+  border: 1px solid #2e8b57;
+  border-radius: 4px;
+  color: #2e8b57;
+  font-size: 18px; /* Larger font */
+  background-color: #f0fff0; /* Light green background */
+}
+
+.error-message {
+  color: #b22222; /* Red */
+  text-align: center;
+  font-weight: bold;
+}
+
+.loading-message {
+  color: #2e8b57;
+  text-align: center;
+  font-weight: bold;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  box-shadow: 0 6px 12px rgba(0, 128, 0, 0.2); /* Stronger shadow */
+}
+
+.table th {
+  background-color: #2e8b57; /* Dark green */
+  color: white;
+  padding: 16px; /* Increase padding */
+  font-size: 20px; /* Larger header font */
+  text-align: left;
+}
+
+.table td {
+  padding: 16px; /* Increase padding */
+  font-size: 18px; /* Larger cell font */
+  border-bottom: 1px solid #ddd;
+}
+
+.row-item:hover {
+  background-color: #e0ffe0; /* Light green for hover effect */
+}
+
+.table td, .table th {
+  border: 1px solid #c0ffc0; /* Light green borders */
+}
+
+.row-item td {
+  color: #2e8b57; /* Green text */
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  margin: 0 5px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-size: 16px;
+  margin: 0 10px;
+}

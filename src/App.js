@@ -1,9 +1,9 @@
-import React, { useReducer, useEffect, useCallback, useState, useMemo } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import HomePage from './pages/HomePage'
 import AddTask from './pages/AddTask'
 import EditTask from './pages/EditTask'
 import TaskDetails from './pages/TaskDetails'
+import Table from './components/Table'
 
 function App(){
   return(
@@ -13,6 +13,8 @@ function App(){
         <Route path="/add-task" element={<AddTask/>}></Route>
         <Route path="/edit-task/:id" element={<EditTask/>}></Route>
         <Route path="/task/:id" element={<TaskDetails />} />
+        <Route path="/table" element={<Table/>}/>
+        <Route path='*' element={<div>No page found</div>}/>
       </Routes>
     </BrowserRouter>
   );

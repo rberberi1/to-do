@@ -47,6 +47,7 @@ const HomePage=()=>{
   const [state, dispatch] = useReducer(todoReducer, initialState);
   const { tasks, loading, error } = state;
   const navigate=useNavigate()
+
   const[searchParams, setSearchParams]=useSearchParams()
   const filter = searchParams.get('filter');
 
@@ -136,9 +137,9 @@ const handleCheckboxChange = async (id, completed) => {
           onChange={(e)=>{
             const filter= e.target.value;
             if (filter === "") {
-              setSearchParams({}); 
+              setSearchParams(); 
             } else {
-              setSearchParams({ filter: filter }); 
+              setSearchParams({ filter }); 
             }
           }}
        >
