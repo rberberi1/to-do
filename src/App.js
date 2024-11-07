@@ -5,6 +5,7 @@ import EditTask from './pages/EditTask'
 import TaskDetails from './pages/TaskDetails'
 import Table from './components/Table'
 
+
 function App(){
   return(
     <BrowserRouter>
